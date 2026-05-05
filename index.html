@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Romantic Slider Book ❤️</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 380px;
+      height: 600px;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s ease-in-out;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      padding: 25px;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slide img {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 4px solid white;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+
+    .slide h1, .slide h2 {
+      margin-bottom: 15px;
+    }
+
+    .slide p {
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      color: #ff4f81;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+    }
+
+    #musicBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255,255,255,0.7);
+      animation: floatUp linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+
+    .creator {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      color: white;
+      background: rgba(0,0,0,0.35);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<button id="musicBtn" onclick="toggleMusic()">▶ Play Music</button>
+
+<audio id="bgMusic" loop>
+  <source src="aboutyou.mp3" type="audio/mpeg">
+</audio>
+
+<div class="slider-container">
+  <div class="slides" id="slides">
+
+    <div class="slide">
+      <img src="araa.jpeg" alt="">
+      <h1>For You Ara </h1>
+      <p>"About You 1975" 🎶</p>
+    </div>
+
+    <div class="slide">
+      <img src="foto roblox1.jpeg" alt="">
+      <h2></h2>
+      <p>"There was something about you, than now i can't remember" </p>
+    </div>
+
+    <div class="slide">
+      <img src="foto roblox2.jpeg" alt="">
+      <h2></h2>
+      <p>"It's the same damn thing that made my heart surrender."</p>
+    </div>
+
+    <div class="slide">
+      <img src="foto roblox3.jpeg" alt="">
+      <h2></h2>
+      <p>" And i miss you on a train, I miss you in the morning..."</p>
+    </div>
+
+    <div class="slide">
+      <img src="araa2.jpeg" alt="">
+      <h2></h2>
+      <p>"I never know what to think about,I think about you..."</p>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <button onclick="prevSlide()">⬅ Prev</button>
+    <button onclick="nextSlide()">Next ➡</button>
+  </div>
+</div>
+
+<div class="creator">Create by Seno</div>
+
+<script>
+  let currentIndex = 0;
+  const slides = document.getElementById("slides");
+  const totalSlides = document.querySelectorAll(".slide").length;
+
+  function updateSlide() {
+    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  function nextSlide() {
+    if (currentIndex < totalSlides - 1) {
+      currentIndex++;
+      updateSlide();
+    }
+  }
+
+  function prevSlide() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateSlide();
+    }
+  }
+
+  // MUSIC
+  const music = document.getElementById("bgMusic");
+  const musicBtn = document.getElementById("musicBtn");
+
+  function toggleMusic() {
+    if (music.paused) {
+      music.play();
+      musicBtn.innerText = "⏸ Pause Music";
+    } else {
+      music.pause();
+      musicBtn.innerText = "▶ Play Music";
+    }
+  }
+
+  // HEART EFFECT
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }
+
+  setInterval(createHeart, 250);
+</script>
+
+</body>
+</html>
